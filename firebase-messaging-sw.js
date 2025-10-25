@@ -1,9 +1,10 @@
-// public/firebase-messaging-sw.js
+/* public/firebase-messaging-sw.js */
+
 importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
 
-// Replace with your Firebase config (same as src/firebase.js)
 firebase.initializeApp({
+
   apiKey: "AIzaSyBo5aIrMN58vYV9Q79uySr8lPSTRO1bjcM",
 
   authDomain: "focus-buddy-61b2b.firebaseapp.com",
@@ -15,19 +16,21 @@ firebase.initializeApp({
   messagingSenderId: "306856680889",
 
   appId: "1:306856680889:web:101a510353af94c283ea68"
+  
 });
 
 const messaging = firebase.messaging();
 
+// 🔥 Background notifications handler
 messaging.onBackgroundMessage((payload) => {
-  console.log('📩 Received background message: ', payload);
+  console.log('[firebase-messaging-sw.js] Received background message', payload);
 
-  const title = payload.notification?.title || 'Check-in Time!';
-  const options = {
-    body: payload.notification?.body || 'How’s your focus going?',
-    icon: '/icons/icon-192x192.png',
-    // optionally: data: payload.data
+  const notificationTitle = payload.notification?.title || 'Check-in Reminder';
+  const notificationOptions = {
+    body: payload.notification?.body || 'Stay focused! 💪',
+    icon: '/accountability-app/icons/icon-192x192.png',
+    badge: '/accountability-app/icons/icon-192x192.png'
   };
 
-  self.registration.showNotification(title, options);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
